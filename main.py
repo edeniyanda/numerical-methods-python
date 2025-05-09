@@ -29,7 +29,7 @@ def sort_matrix(matrix):
     # Swap the first row with the row containing the maximum element
     matrix[0], matrix[x_max_row_index] = matrix[x_max_row_index], matrix[0]
 
-    y_max, y_max_row_index = matrix[1][1], 2
+    y_max, y_max_row_index = matrix[1][1], 1
     for i in range(1, len(matrix)):
         if matrix[i][1] > y_max:
             y_max = matrix[i][1]
