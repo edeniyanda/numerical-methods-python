@@ -1,3 +1,5 @@
+import numpy as np
+
 def welcome():
     print("=" * 50)
     print("        GAUSSIAN ELIMINATION SOLVER")
@@ -40,6 +42,29 @@ def sort_matrix(matrix):
 
     return matrix
 
+def gaussian_elimination(matrix):
+    R2_prime = matrix[0][0] * np.array(matrix[1]) - matrix[1][0] * np.array(matrix[0])
+    R3_prime = matrix[0][0] * np.array(matrix[2]) - matrix[2][0] * np.array(matrix[0])
+
+    # Update the matrix with the new rows
+    matrix[1] = R2_prime
+    matrix[2] = R3_prime
+
+    # Perform elimination for the third row
+    R3_prime = matrix[1][1] * np.array(matrix[2]) - matrix[2][1] * np.array(matrix[1])
+
+    # Update the matrix with the new row
+    matrix[2] = R3_prime
+
+    return matrix
+
+# def back_substitution(matrix):
+#     # Assuming the matrix is in row echelon form
+#     n = len(matrix)
+#     x = [0] * n
+
+#     # Back substitution
+#     x[n
 
 if __name__ == "__main__":
     welcome()
@@ -54,4 +79,16 @@ if __name__ == "__main__":
     ##############
     for row in sorted_natrix:
         print(row)
+
+    print("\nPerforming Gaussian Elimination...")
+    eliminated_matrix = gaussian_elimination(sorted_natrix)
+    print("\nEliminated Matrix:")
+    for row in eliminated_matrix:
+        print(row)
+    
+    print("\nPerforming Back Substitution...")
+    solution = back_substitution(eliminated_matrix)
+    print("\nSolution:")
+    for i, val in enumerate(solution):
+        print(f"x{i+1} = {val:.2f}")
  
