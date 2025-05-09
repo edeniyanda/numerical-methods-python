@@ -44,8 +44,14 @@ def sort_matrix(matrix):
 if __name__ == "__main__":
     welcome()
     matrix = get_values()
-    print(matrix)
+    print("Original Matrix:")
+    for row in matrix:
+        print(row)
+
+    print("\nSorting the matrix based on the first two columns... for easier elimination")
     sorted_natrix = sort_matrix(matrix)
+    print("\nSorted Matrix:")
+    ##############
     for row in sorted_natrix:
         print(row)
  
