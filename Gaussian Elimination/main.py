@@ -68,6 +68,8 @@ def back_substitution(matrix):
 
     x[n-2] = (matrix[n-2][n] - matrix[n-2][n-1] * x[n-1]) / matrix[n-2][n-2]
 
+    x[n-3] = (matrix[n-3][n] - matrix[n-3][n-2] * x[n-2] - matrix[n-3][n-1] * x[n-1]) / matrix[n-3][n-3]
+
 
 
     return x
