@@ -58,13 +58,17 @@ def gaussian_elimination(matrix):
 
     return matrix
 
-# def back_substitution(matrix):
-#     # Assuming the matrix is in row echelon form
-#     n = len(matrix)
-#     x = [0] * n
+def back_substitution(matrix):
+    # Assuming the matrix is in row echelon form
+    n = len(matrix)
+    x = [0] * n
 
-#     # Back substitution
-#     x[n
+    # Back substitution
+    x[n-1] = matrix[n-1][n] / matrix[n-1][n-1]
+
+
+
+    return x
 
 if __name__ == "__main__":
     welcome()
