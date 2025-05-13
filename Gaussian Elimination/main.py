@@ -10,6 +10,11 @@ def welcome():
     print("=" * 50)
     print()
 
+def print_matrix(matrix, label="Matrix"):
+    print(f"\n{label}:")
+    for row in matrix:
+        row_str = "  ".join(f"{val:>7.2f}" for val in row[:-1])
+        print(f"[ {row_str} | {matrix[matrix.tolist().index(list(row))][-1]:>7.2f} ]")
 
 def get_values():
     input_values = input("Enter the augmented matrix (comma-separated): ").strip()
@@ -36,32 +41,38 @@ def sort_matrix(matrix):
     return matrix
 
 def gaussian_elimination(matrix):
-    matrix = matrix.copy()  # Create a copy to avoid modifying the original matrix
+    matrix = matrix.copy()
 
     R1 = matrix[0]
     R2 = matrix[1]
     R3 = matrix[2]
 
-    # Perform elimination for the second row
-    R2_prime = matrix[0, 0] * R2 - matrix[1, 0] * R1
-    R3_prime = matrix[0, 0] * R3 - matrix[2, 0] * R1
+    print("\n[Step 1] Eliminating entries in column 1")
+    a1, b1 = matrix[0, 0], matrix[1, 0]
+    a2, b2 = matrix[0, 0], matrix[2, 0]
 
-    # Update the matrix with the new rows
+    print(f"R2' = {a1:.0f}*R2 - {b1:.0f}*R1")
+    print(f"R3' = {a2:.0f}*R3 - {b2:.0f}*R1")
+
+    R2_prime = a1 * R2 - b1 * R1
+    R3_prime = a2 * R3 - b2 * R1
+
     matrix[1] = R2_prime
     matrix[2] = R3_prime
 
-    # Perform elimination for the third row
-    R3_prime = matrix[1][1] * np.array(matrix[2]) - matrix[2][1] * np.array(matrix[1])
+    print_matrix(matrix, label="After Column 1 Elimination")
 
-    # Update the matrix with the new row
-    matrix[2] = R3_prime
+    print("\n[Step 2] Eliminating entry in column 2")
+    a3, b3 = matrix[1, 1], matrix[2, 1]
+    print(f"R3'' = {a3:.0f}*R3' - {b3:.0f}*R2'")
 
-    R3_prime_prime = matrix[2][1] * R2_prime - matrix[1][1] * R3_prime
+    R3_prime_final = a3 * matrix[2] - b3 * matrix[1]
+    matrix[2] = R3_prime_final
 
-    # Update the matrix with the new row
-    matrix[2] = R3_prime_prime
+    print_matrix(matrix, label="After Column 2 Elimination")
 
     return matrix
+
 
 def back_substitution(matrix):
     n = matrix.shape[0]
@@ -75,27 +86,35 @@ def back_substitution(matrix):
 
 if __name__ == "__main__":
     welcome()
-    matrix = get_values()
-    print("Original Matrix:")
-    for row in matrix:
-        print(row)
+    while True:
+        try:
+            matrix = get_values()
+        except Exception as e:
+            print(f"Error: {e}")
+            print("Please enter a valid augmented matrix.")
+            continue
 
-    print("\nSorting the matrix based on the first two columns... for easier elimination")
-    sorted_natrix = sort_matrix(matrix)
-    print("\nSorted Matrix:")
-    ##############
-    for row in sorted_natrix:
-        print(row)
+        print_matrix(matrix, label="Original Matrix")
 
-    print("\nPerforming Gaussian Elimination...")
-    eliminated_matrix = gaussian_elimination(sorted_natrix)
-    print("\nEliminated Matrix:")
-    for row in eliminated_matrix:
-        print(row)
+        print("\nSorting the matrix based on the first two columns... for easier elimination")
+        sorted_natrix = sort_matrix(matrix)
+
+
+        print_matrix(sorted_natrix, label="Sorted Matrix")
+
+        print("\nPerforming Gaussian Elimination...")
+        eliminated_matrix = gaussian_elimination(sorted_natrix)
+
+        print_matrix(eliminated_matrix, label="Eliminated Matrix")
+        
+        print("\nPerforming Back Substitution...")
+        solution = back_substitution(eliminated_matrix)
+        print("\nSolution:")
+        for i, val in enumerate(solution):
+            print(f"x{i+1} = {val:.4f}")
     
-    print("\nPerforming Back Substitution...")
-    solution = back_substitution(eliminated_matrix)
-    print("\nSolution:")
-    for i, val in enumerate(solution):
-        print(f"x{i+1} = {val:.2f}")
- 
+        print("\n" + "=" * 50)
+        cont = input("Do you want to solve another system? (y/n): ").strip().lower()
+        if cont != 'y':
+            print("Thank you for using the Gaussian Elimination Solver!")
+            break
