@@ -36,8 +36,15 @@ def sort_matrix(matrix):
     return matrix
 
 def gaussian_elimination(matrix):
-    R2_prime = matrix[0][0] * np.array(matrix[1]) - matrix[1][0] * np.array(matrix[0])
-    R3_prime = matrix[0][0] * np.array(matrix[2]) - matrix[2][0] * np.array(matrix[0])
+    matrix = matrix.copy()  # Create a copy to avoid modifying the original matrix
+
+    R1 = matrix[0]
+    R2 = matrix[1]
+    R3 = matrix[2]
+
+    # Perform elimination for the second row
+    R2_prime = matrix[0, 0] * R2 - matrix[1, 0] * R1
+    R3_prime = matrix[0, 0] * R3 - matrix[2, 0] * R1
 
     # Update the matrix with the new rows
     matrix[1] = R2_prime
@@ -48,6 +55,11 @@ def gaussian_elimination(matrix):
 
     # Update the matrix with the new row
     matrix[2] = R3_prime
+
+    R3_prime_prime = matrix[2][1] * R2_prime - matrix[1][1] * R3_prime
+
+    # Update the matrix with the new row
+    matrix[2] = R3_prime_prime
 
     return matrix
 
@@ -79,11 +91,11 @@ if __name__ == "__main__":
     for row in sorted_natrix:
         print(row)
 
-    # print("\nPerforming Gaussian Elimination...")
-    # eliminated_matrix = gaussian_elimination(sorted_natrix)
-    # print("\nEliminated Matrix:")
-    # for row in eliminated_matrix:
-    #     print(row)
+    print("\nPerforming Gaussian Elimination...")
+    eliminated_matrix = gaussian_elimination(sorted_natrix)
+    print("\nEliminated Matrix:")
+    for row in eliminated_matrix:
+        print(row)
     
     # print("\nPerforming Back Substitution...")
     # solution = back_substitution(eliminated_matrix)
