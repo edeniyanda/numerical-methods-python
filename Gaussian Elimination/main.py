@@ -64,16 +64,12 @@ def gaussian_elimination(matrix):
     return matrix
 
 def back_substitution(matrix):
-    # Assuming the matrix is in row echelon form
-    n = len(matrix)
-    x = [0] * n
+    n = matrix.shape[0]
+    x = np.zeros(n)
 
-    # Back substitution
-    x[n-1] = matrix[n-1][n] / matrix[n-1][n-1]
-
-    x[n-2] = (matrix[n-2][n] - matrix[n-2][n-1] * x[n-1]) / matrix[n-2][n-2]
-
-    x[n-3] = (matrix[n-3][n] - matrix[n-3][n-2] * x[n-2] - matrix[n-3][n-1] * x[n-1]) / matrix[n-3][n-3]
+    x[2] = matrix[2, 3] / matrix[2, 2]
+    x[1] = (matrix[1, 3] - matrix[1, 2] * x[2]) / matrix[1, 1]
+    x[0] = (matrix[0, 3] - matrix[0, 1] * x[1] - matrix[0, 2] * x[2]) / matrix[0, 0]
 
     return x
 
