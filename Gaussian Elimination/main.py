@@ -16,28 +16,21 @@ def get_values():
 
     # Splitting the input string into a list of strings
     input_values = input_values.split(",")
-    # Converting the list of strings into a list of lists of floats 
-    # using list comprehension
+    # Converting the list of strings into a list of lists of floats using list comprehension
     matrix = [list(map(float, row.split())) for row in input_values]
 
-    return matrix
+    return np.array(matrix)
 
 def sort_matrix(matrix):
-    x_max, x_max_row_index = matrix[0][0], 0
-    for i in range(len(matrix)):
-        if matrix[i][0] > x_max:
-            x_max = matrix[i][0]
-            x_max_row_index = i
-    # Swap the first row with the row containing the maximum element
-    matrix[0], matrix[x_max_row_index] = matrix[x_max_row_index], matrix[0]
+    # Sort the matrix based on the first two columns
+    matrix = matrix.copy()
+    x_max_index = np.argmax(matrix[:, 0])
+    
+    matrix[[0, x_max_index]] = matrix[[x_max_index, 0]]  # Swap the first row with the row of the largest first column
 
-    y_max, y_max_row_index = matrix[1][1], 1
-    for i in range(1, len(matrix)):
-        if matrix[i][1] > y_max:
-            y_max = matrix[i][1]
-            y_max_row_index = i
-    # Swap the second row with the row containing the maximum element
-    matrix[1], matrix[y_max_row_index] = matrix[y_max_row_index], matrix[1]
+    y_max_index = np.argmax(matrix[1:, 1]) + 1
+
+    matrix[[1, y_max_index]] = matrix[[y_max_index, 1]]  # Swap the second row with the row of the largest second column
 
 
     return matrix
@@ -70,8 +63,6 @@ def back_substitution(matrix):
 
     x[n-3] = (matrix[n-3][n] - matrix[n-3][n-2] * x[n-2] - matrix[n-3][n-1] * x[n-1]) / matrix[n-3][n-3]
 
-
-
     return x
 
 if __name__ == "__main__":
@@ -88,15 +79,15 @@ if __name__ == "__main__":
     for row in sorted_natrix:
         print(row)
 
-    print("\nPerforming Gaussian Elimination...")
-    eliminated_matrix = gaussian_elimination(sorted_natrix)
-    print("\nEliminated Matrix:")
-    for row in eliminated_matrix:
-        print(row)
+    # print("\nPerforming Gaussian Elimination...")
+    # eliminated_matrix = gaussian_elimination(sorted_natrix)
+    # print("\nEliminated Matrix:")
+    # for row in eliminated_matrix:
+    #     print(row)
     
-    print("\nPerforming Back Substitution...")
-    solution = back_substitution(eliminated_matrix)
-    print("\nSolution:")
-    for i, val in enumerate(solution):
-        print(f"x{i+1} = {val:.2f}")
+    # print("\nPerforming Back Substitution...")
+    # solution = back_substitution(eliminated_matrix)
+    # print("\nSolution:")
+    # for i, val in enumerate(solution):
+    #     print(f"x{i+1} = {val:.2f}")
  
