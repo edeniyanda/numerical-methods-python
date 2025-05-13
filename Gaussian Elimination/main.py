@@ -23,7 +23,7 @@ def get_values():
 
 def sort_matrix(matrix):
     # Sort the matrix based on the first two columns
-    matrix = matrix.copy()
+    matrix = matrix.copy() # Create a copy to avoid modifying the original matrix
     x_max_index = np.argmax(matrix[:, 0])
     
     matrix[[0, x_max_index]] = matrix[[x_max_index, 0]]  # Swap the first row with the row of the largest first column
