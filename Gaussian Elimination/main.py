@@ -93,9 +93,9 @@ if __name__ == "__main__":
     for row in eliminated_matrix:
         print(row)
     
-    # print("\nPerforming Back Substitution...")
-    # solution = back_substitution(eliminated_matrix)
-    # print("\nSolution:")
-    # for i, val in enumerate(solution):
-    #     print(f"x{i+1} = {val:.2f}")
+    print("\nPerforming Back Substitution...")
+    solution = back_substitution(eliminated_matrix)
+    print("\nSolution:")
+    for i, val in enumerate(solution):
+        print(f"x{i+1} = {val:.2f}")
  
